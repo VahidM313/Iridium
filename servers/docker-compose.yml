@@ -1,0 +1,128 @@
+version: '3'
+
+services:
+  victim-1:
+    build:
+      context: .
+      args:
+        - ROOT_PASSWORD=admin
+    networks:
+      - iridium
+    container_name: victim-1
+    environment:
+      - CONTAINER_NAME=victim-1
+
+  victim-2:
+    build:
+      context: .
+      args:
+        - ROOT_PASSWORD=T1#kL6@f9Qb3
+    networks:
+      - iridium
+    container_name: victim-2
+    environment:
+      - CONTAINER_NAME=victim-2
+
+  victim-3:
+    build:
+      context: .
+      args:
+        - ROOT_PASSWORD=U7%9kG2$bR4t
+    networks:
+      - iridium
+    container_name: victim-3
+    environment:
+      - CONTAINER_NAME=victim-3
+
+  victim-4:
+    build:
+      context: .
+      args:
+        - ROOT_PASSWORD=123456
+    networks:
+      - iridium
+    container_name: victim-4
+    environment:
+      - CONTAINER_NAME=victim-4
+
+  victim-5:
+    build:
+      context: .
+      args:
+        - ROOT_PASSWORD=qwerty
+    networks:
+      - iridium
+    container_name: victim-5
+    environment:
+      - CONTAINER_NAME=victim-5
+
+  victim-6:
+    build:
+      context: .
+      args:
+        - ROOT_PASSWORD=G5%7lA8@eH1i
+    networks:
+      - iridium
+    container_name: victim-6
+    environment:
+      - CONTAINER_NAME=victim-6
+
+  victim-7:
+    build:
+      context: .
+      args:
+        - ROOT_PASSWORD=123abc
+    networks:
+      - iridium
+    container_name: victim-7
+    environment:
+      - CONTAINER_NAME=victim-7
+
+  victim-8:
+    build:
+      context: .
+      args:
+        - ROOT_PASSWORD=1234567890
+    networks:
+      - iridium
+    container_name: victim-8
+    environment:
+      - CONTAINER_NAME=victim-8
+
+  victim-9:
+    build:
+      context: .
+      args:
+        - ROOT_PASSWORD=password
+    networks:
+      - iridium
+    container_name: victim-9
+    environment:
+      - CONTAINER_NAME=victim-9
+
+  victim-10:
+    build:
+      context: .
+      args:
+        - ROOT_PASSWORD=L6#8oB9$fJ2k
+    networks:
+      - iridium
+    container_name: victim-10
+    environment:
+      - CONTAINER_NAME=victim-10
+
+  attacker:
+    build:
+      context: .
+      args:
+        - ROOT_PASSWORD=attacker
+    networks:
+      - iridium
+    container_name: attacker
+    environment:
+      - CONTAINER_NAME=attacker
+
+networks:
+  iridium:
+    external: true
+    name: iridium

@@ -1,0 +1,40 @@
+# Base image
+FROM alpine:latest
+
+# Update packages and install SSH, curl, ping, and sshpass
+RUN apk update && apk upgrade && apk add --no-cache openssh curl iputils sshpass
+
+# Install additional tools for hardware information and date/time logging
+RUN apk add --no-cache lshw util-linux coreutils nmap nano bash
+
+# Install cron
+RUN apk add --no-cache dcron
+
+# Generate SSH host keys
+RUN ssh-keygen -A
+
+# Set the root password (change it to your desired password)
+ARG ROOT_PASSWORD
+RUN echo "root:${ROOT_PASSWORD}" | chpasswd
+
+# Enable SSH
+RUN sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
+RUN sed -i 's/#PasswordAuthentication yes/PasswordAuthentication yes/' /etc/ssh/sshd_config
+
+# Add cron job
+RUN echo "*/5 * * * * echo 'Job executed at $(date)' >> /var/log/job.log" > /etc/crontabs/root
+
+# Expose SSH port
+EXPOSE 22
+
+# Create a startup script
+RUN echo "#!/bin/sh" > /start.sh
+RUN echo "/usr/sbin/sshd" >> /start.sh  # Add this line to start the SSH service
+RUN echo "lshw > /var/log/hardware_info.log" >> /start.sh
+RUN echo "date >> /var/log/hardware_info.log" >> /start.sh
+RUN echo "crond -f" >> /start.sh
+RUN echo "exec /usr/sbin/sshd -D" >> /start.sh
+RUN chmod +x /start.sh
+
+# Start SSH service and cron
+CMD ["/start.sh"]
